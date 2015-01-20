@@ -1,1 +1,5 @@
-# projet_deamon_cron
+# projet deamon cron
+
+apt-get install imagemagick
+
+apt-get install python-pil
