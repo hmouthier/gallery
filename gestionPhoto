@@ -1,0 +1,53 @@
+#!/bin/bash
+i=1
+dossier_entree=/$HOME/Documents/import_photo
+dossier_sortie=/$HOME/Documents/photo_tri
+
+new_photo=false
+
+while [[ i>0 ]]; do
+	#statements
+
+#echo Mes images
+liste_fichiers=$(ls $dossier_entree)
+
+for fichier in $liste_fichiers
+do
+
+
+var1=$(exiftool -createdate $dossier_entree/$fichier)
+var2=$(echo $var1 | cut -c15-)
+annee=$(echo $var1 | cut -c15-18)
+mois=$(echo $var1 | cut -c20-21)
+jour=$(echo $var1 | cut -c23-24)
+md5image=$(md5sum $dossier_entree/$fichier | awk '{print $1}')
+mkdir -p $dossier_sortie/$annee/$mois/$jour
+cp $dossier_entree/$fichier $dossier_sortie/$annee/$mois/$jour
+md5imagesorti=$(md5sum $dossier_sortie/$annee/$mois/$jour/$fichier | awk '{print $1}')
+
+if [ $md5image = $md5imagesorti ]
+then
+		new_photo=true
+		echo Import réussi : $fichier
+        rm $dossier_entree/$fichier
+		
+else
+		echo Import échoué : $fichier
+		rm $dossier_sortie/$annee/$mois/$jour/$fichier
+fi
+
+
+done
+
+if [ $new_photo = true ]
+then
+        echo mise à jour html
+
+fi
+  new_photo=false
+sleep 20
+done
+
+
+
+exit 0
