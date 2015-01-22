@@ -2,4 +2,4 @@
 
 apt-get install imagemagick
 
-apt-get install python-pil
+apt-get install exiftool
