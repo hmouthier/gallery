@@ -75,9 +75,14 @@ done
 # on revient dans le repertoire de depart
 cd $repDepart
 
+# pied de page
+echo "<footer>Galerie mis à jour le " >> $fichierSortie
+date >> $fichierSortie
+echo "</footer>" >> $fichierSortie
 cat "$pathScript$pied" >> $fichierSortie
+# suppression fichier temporaire
 rm $fichierExif
-
+# copie fichiers assets
 cp -Rv $pathScript"jscssimg" $1
 
 
