@@ -1,7 +1,7 @@
 #!/bin/bash
 i=1
-dossier_entree=/$HOME/Documents/import_photo/
-dossier_sortie=/$HOME/Documents/photo_tri/
+dossier_entree=/$HOME/Documents/import_photo
+dossier_sortie=/$HOME/Documents/photo_tri
 
 new_photo=false
 
@@ -23,9 +23,11 @@ jour=$(echo $var1 | cut -c9-10)
 
 
 md5image=$(md5sum $dossier_entree/$fichier | awk '{print $1}')
-mkdir -p $dossier_sortie/$annee"-"$mois"-"$jour
+mkdir -p $dossier_sortie/$annee"-"$mois"-"$jour"/mini"
 cp $dossier_entree/$fichier $dossier_sortie/$annee"-"$mois"-"$jour
 md5imagesorti=$(md5sum $dossier_sortie/$annee"-"$mois"-"$jour/$fichier | awk '{print $1}')
+convert $dossier_sortie/$annee"-"$mois"-"$jour/$fichier -resize "300x" $dossier_sortie/$annee"-"$mois"-"$jour"/mini/"$fichier
+
 
 if [ $md5image = $md5imagesorti ]
 then
