@@ -1,0 +1,54 @@
+<footer>
+			Galerie mis à jour le 
+		</footer>
+		</div>
+	</body>
+	<script>
+			$(window).load(function(){
+					
+					// Click sur un bouton
+					$('.container .button').click(function(){
+						// On récupère l'id du slide
+						tabSplit= $(this).attr("id").split("_");
+						id 		= tabSplit[1];
+						// valeur courante de l'img
+						current = parseInt($("#current_"+id).attr("value"));
+						
+						// On cache la description de la photo courante
+						$("#description_slide_"+id+"_photo_"+current).addClass("pasVisible");
+						
+						var pages = $('#container'+id+' li');
+						var currentPage,nextPage;
+						
+						currentPage = pages.eq(current);
+						
+						
+						if($(this).hasClass('prevButton'))// bouton précédent
+						{
+
+							if (current <= 0)
+								current=pages.length-1;
+							else
+								current=current-1;
+						}
+						else // bouton suivant
+						{
+							if (current >= pages.length-1)
+								current=0;
+							else
+								current=current+1;
+						}
+						nextPage = pages.eq(current);	
+						
+						// Changement de photo
+						currentPage.hide();	
+						nextPage.show();		
+						
+						// On montre la description de la nouvelle photo courante
+						$("#description_slide_"+id+"_photo_"+current).removeClass("pasVisible");
+						// On met à jour le compteur de photo
+						$("#current_"+id).attr("value",current);
+					});
+			});
+	</script>
+</html>

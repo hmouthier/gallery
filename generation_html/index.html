@@ -1,0 +1,123 @@
+ 
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Mes photos</title>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Mes photos" />
+		<link rel="stylesheet" type="text/css" href="./jscssimg/styles.css">
+		<script type="text/javascript" src="./jscssimg/jquery-1.4.2.min.js"></script>
+	</head>
+	<body>
+		<div class="main">
+		<header>
+			<h1>Mes photos</h1>
+		</header>
+		<article>
+					<h2>pouet</h2>
+					<div class="container" id="container1">
+							<div class="photoDiv">
+								<ul>
+									<li>
+										<img src="./photos/DSC06017.JPG" alt="" />
+									</li>
+									<li>
+										<img src="./photos/DSC06018.JPG" alt="" />
+									</li>
+									<li>
+										<img src="./photos/DSC06078.JPG" alt="" />
+									</li>
+								</ul>
+								<span class="button prevButton" id="button1_1"></span>
+								<span class="button nextButton" id="button2_1"></span>
+								<input type="hidden" value="0" id="current_1" />
+							</div>
+							<div id="description_slide_1_photo_0" class="metaDiv">
+								<div>Date : 16/05/2005</div>
+								<div>Dimensions : 1024x748</div>
+							</div>
+							<div id="description_slide_1_photo_1" class="metaDiv,pasVisible">
+								
+							</div>
+							<div id="description_slide_1_photo_2" class="metaDiv,pasVisible">
+								
+							</div>
+                    </div>
+                    
+		</article>
+		<article>
+					<h2>pouet</h2>
+					<div class="container" id="container2">
+							<ul>
+								<li>
+									<div>
+									<img src="./photos/DSC06017.JPG" alt="" />
+									fdgf
+									</div>
+								</li>
+								<li>
+									<img src="./photos/DSC06018.JPG" alt="" />
+								</li>
+								<li>
+									<img src="./photos/DSC06078.JPG" alt="" />
+								</li>
+							</ul>
+							<span class="button prevButton" id="button1_2"></span>
+							<span class="button nextButton" id="button2_2"></span>
+							<input type="hidden" value="0" id="current_2" />
+                    </div>
+		</article>
+		<footer>
+			Galerie mis à jour le 
+		</footer>
+		</div>
+	</body>
+	<script>
+			$(window).load(function(){
+					
+					// Click sur un bouton
+					$('.container .button').click(function(){
+						// On récupère l'id du slide
+						tabSplit= $(this).attr("id").split("_");
+						id 		= tabSplit[1];
+						// valeur courante de l'img
+						current = parseInt($("#current_"+id).attr("value"));
+						
+						// On cache la description de la photo courante
+						$("#description_slide_"+id+"_photo_"+current).addClass("pasVisible");
+						
+						var pages = $('#container'+id+' li');
+						var currentPage,nextPage;
+						
+						currentPage = pages.eq(current);
+						
+						
+						if($(this).hasClass('prevButton'))// bouton précédent
+						{
+
+							if (current <= 0)
+								current=pages.length-1;
+							else
+								current=current-1;
+						}
+						else // bouton suivant
+						{
+							if (current >= pages.length-1)
+								current=0;
+							else
+								current=current+1;
+						}
+						nextPage = pages.eq(current);	
+						
+						// Changement de photo
+						currentPage.hide();	
+						nextPage.show();		
+						
+						// On montre la description de la nouvelle photo courante
+						$("#description_slide_"+id+"_photo_"+current).removeClass("pasVisible");
+						// On met à jour le compteur de photo
+						$("#current_"+id).attr("value",current);
+					});
+			});
+	</script>
+</html>
