@@ -46,17 +46,17 @@ for album in *
 				echo "" > $fichierExif
 				for photo in *
 					do
-					if [$photo != "mini" ]
+					if [ $photo != "mini" ]
 						then
 							# image
 							echo "<li><a href=\"$album/$photo\"><img src=\""$album"/mini/"$photo"\" alt=\"\" /></a></li>"  >> $fichierSortie
 							# metadonnees exif
 							echo "<div id=\"description_slide_"$cmpAlbums"_photo_"$cmpPhoto"\" class=\"metaDiv\"><div>Date : " >> $fichierExif
-							exif $photo | grep -m 1 "Date et" | awk --field-separator '|' '{ print $2}' >> $fichierExif
+							exif $photo | grep -m 1 "Date et" | awk -F '|' '{ print $2}' >> $fichierExif
 							echo "</div><div>Dimensions : " >> $fichierExif
-							exif $photo | grep -m 1 "Pixel X Dimension" | awk --field-separator '|' '{ print $2}' >> $fichierExif
+							exif $photo | grep -m 1 "Pixel X Dimension" | awk -F '|' '{ print $2}' >> $fichierExif
 							echo " x " >> $fichierExif
-							exif $photo | grep -m 1 "Pixel Y Dimension" | awk --field-separator '|' '{ print $2}' >> $fichierExif
+							exif $photo | grep -m 1 "Pixel Y Dimension" | awk -F '|' '{ print $2}' >> $fichierExif
 							echo "</div></div>"  >> $fichierExif
 							
 							((cmpPhoto=$cmpPhoto+1))
