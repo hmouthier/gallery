@@ -3,17 +3,20 @@ echo IL FAUDRA QUE LE SCRIPT D INSTALLATION INSTALLE EXIF
 echo param 1 = chemin absolu du repertoire contenant les albums!!
 # ex : 15/02 ../scripts/genhtml.sh /home/cwamgis/Bureau/exif/html/photos/
 
+#recuperation du repertoire de depart
+repDepart=$(pwd)
 
+#repertoire courant du script
 pathScript=`echo "$0" | sed -e "s/[^\/]*$//"`
 echo $pathScript
 
 #fichier de sortie html
 suffixeFichierRes="visuAlbums.html"
-fichierSortie="$1$suffixeFichierRes"
+fichierSortie="$1/$suffixeFichierRes"
 
 # fichier temporaire de description exif
 suffixeFichierTmp="tmpExif.html"
-fichierExif="$1$suffixeFichierTmp"
+fichierExif="$1/$suffixeFichierTmp"
 
 
 #entete
@@ -68,6 +71,9 @@ for album in *
 				cd ..
 		fi
 done
+
+# on revient dans le repertoire de depart
+cd $repDepart
 
 cat "$pathScript$pied" >> $fichierSortie
 rm $fichierExif
