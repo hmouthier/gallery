@@ -1,7 +1,7 @@
 #! /bin/sh -e
 
 DAEMON="/opt/gallery/gestionPhoto" #ligne de commande du programme
-DAEMONUSER=$USER  #utilisateur du programme
+DAEMONUSER=$(cat $HOME/.gallery.ini | grep utilisateur | awk -F ' ' '{ print $2}')  #utilisateur du programme
 DEAMON_NAME="gestionPhoto" #Nom du programme (doit être identique à l'exécutable)
 
 PATH="/sbin:/bin:/usr/sbin:/usr/bin" #Ne pas toucher

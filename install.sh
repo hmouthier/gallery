@@ -17,6 +17,7 @@ mkdir /var/log/gallery
 # Déplacement des scripts dans l'arborescence /opt/gallery
 cp src/gestionPhoto /opt/gallery
 cp -r src/generation_html /opt/gallery
+cp src/cron.log /var/log/gallery
 
 # Déplacement du démon dans le init.d
 cp src/gestionPhoto.sh /etc/init.d/.
