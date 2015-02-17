@@ -12,7 +12,7 @@ test -x $DAEMON || exit 0
 
 d_start () {
         log_daemon_msg "Starting system $DEAMON_NAME Daemon"
-	start-stop-daemon --background --name $DEAMON_NAME --start --quiet --chuid $DAEMONUSER --exec $DAEMON
+	start-stop-daemon --background --name $DEAMON_NAME --start --quiet  --exec $DAEMON
         log_end_msg $?
 }
 
