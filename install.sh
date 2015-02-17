@@ -5,8 +5,10 @@ apt-get install imagemagick
 apt-get install exif
 
 # déplacement du fichier de configuration dans le répértoire de l'utilisateur
-# AJOUTER POUR QUEL UTILISATEUR
-cp .gallery.ini $HOME
+###############################
+# GROPPO AJOUTE TON SCRIPT ICI#
+###############################
+cp .gallery.ini $HOME/$user
 
 # Création d'un répértoire pour l'application qui va tourner en démon
 mkdir /opt/gallery
