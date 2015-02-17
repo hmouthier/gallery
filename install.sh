@@ -10,6 +10,9 @@ mkdir /opt/gallery
 # Créer Le dossier pour les logs
 mkdir /var/log/gallery
 
+# déplacement du fichier cron
+cp cronGestionPhoto.sh /opt/gallery
+
 # déplacement du fichier de configuration dans le répértoire de l'utilisateur
 ###############################
 echo "Pour quel utilisateur voulez vous installer ce programme ?"
@@ -72,7 +75,6 @@ echo "dossier_sortie /home/"$user"/"$k >> /opt/gallery/.gallery.ini
 # Déplacement des scripts dans l'arborescence /opt/gallery
 cp src/gestionPhoto /opt/gallery
 cp -r src/generation_html /opt/gallery
-cp src/cron.log /var/log/gallery
 
 # Déplacement du démon dans le init.d
 cp src/gestionPhoto.sh /etc/init.d/.
@@ -88,5 +90,5 @@ echo LANCEMENT DU DEMON .. OK
 
 # Ajouter le cron tab
 /etc/init.d/cron stop
-echo '*/5 *    * * *   root    /etc/init.d/gestionPhoto.sh start > /home/anonymz/Bureau/log.log' >> /etc/crontab
+echo '*/5 *    * * *   root    /bin/bash /opt/gallery/cronGestionPhoto.sh' >> /etc/crontab
 /etc/init.d/cron start
