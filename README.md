@@ -1,5 +1,7 @@
 # Projet Démon-Cron
-Le but de ce projet est de créer un démon qui effectue une copie automatique de photos à partir d'un répertoire vers un autre et qui génère un site/Album photos ou l'utisiateur trouve ses images triées par date.
+Le but de ce projet est de créer un démon qui effectue une copie automatique de photos à partir d'un répertoire vers un autre et qui génère un site/Album photos ou l'utilisateur trouve ses images triées par date.
+
+Si le démon rencontre un problème d
 
 ## Installation du démon-cron
 
@@ -17,4 +19,10 @@ lors de l'installation, le script vous demande 3 questions:
 
 ## Désinstaller le démon-cron
 
-Pour désinstaller le démon-cron, éxecutez en `sudo` 
+Pour désinstaller le démon-cron, éxecutez en `sudo` la commande `./uninstall.sh`.
+
+```
+sudo ./uninstall.sh
+```
+
+
