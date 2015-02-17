@@ -3,7 +3,7 @@ i=1
 
 dossier_entree=$(cat /opt/gallery/.gallery.ini | grep dossier_entree | awk -F ' ' '{ print $2}')
 dossier_sortie=$(cat /opt/gallery/.gallery.ini | grep dossier_sortie | awk -F ' ' '{ print $2}')
-
+user=$(cat /opt/gallery/.gallery.ini | grep utilisateur | awk -F ' ' '{ print $2}')
 
 new_photo=false
 
@@ -40,8 +40,12 @@ while [[ i>0 ]]; do
 			md5image=$(md5sum $dossier_entree/$fichier | awk '{print $1}')
 			# cree le repertoire si il n existe pas deja
 			mkdir -p $dossier_sortie"/"$repAlbum"/mini"
+                        chown -R $user $dossier_sortie"/"$repAlbum""
+                        chgrp -R $user $dossier_sortie"/"$repAlbum""
 			# copie de la photo dans le repertoire d arrivee
 			cp $dossier_entree"/"$fichier $dossier_sortie"/"$repAlbum
+                        chown -R $user $dossier_sortie"/"$repAlbum""
+                        chgrp -R $user $dossier_sortie"/"$repAlbum
 			# verif md5 fichier sortie
 			md5imagesorti=$(md5sum $dossier_sortie"/"$repAlbum"/"$fichier | awk '{print $1}')
 			#  creation de l image miniature

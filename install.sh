@@ -11,7 +11,7 @@ mkdir /opt/gallery
 mkdir /var/log/gallery
 
 # déplacement du fichier cron
-cp cronGestionPhoto.sh /opt/gallery
+cp src/cronGestionPhoto.sh /opt/gallery
 
 # déplacement du fichier de configuration dans le répértoire de l'utilisateur
 ###############################
@@ -35,8 +35,8 @@ while [ $test == true ]; do
 			if [ "$m" == "o" ] || [ "$m" == "O" ];
 				then
 					mkdir /home/$user/$n
-					chmgrb $user /home/$user/$n
-					chown $user /home/$user/$n
+					chgrp -R $user /home/$user/$n
+					chown -R $user /home/$user/$n
 					test=false
 			fi
 	fi
@@ -60,8 +60,8 @@ while [ $test == true ]; do
 			if [ "$m" == "o" ] || [ "$m" == "O" ];
 				then
 					mkdir /home/$user/$k
-					chgrp $user /home/$user/$k
-					chown $user /home/$user/$k
+					chgrp -R $user /home/$user/$k
+					chown -R $user /home/$user/$k
 					test=false
 			fi
 	fi
