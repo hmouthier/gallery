@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Mes photos</title>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Mes photos" />
+		<link rel="stylesheet" type="text/css" href="./jscssimg/styles.css">
+		<script type="text/javascript" src="./jscssimg/jquery-1.4.2.min.js"></script>
+	</head>
+	<body>
+		<div class="main">
+		<header>
+			<h1>Mes photos</h1>
+		</header>
+<article><h2>2008-02-16</h2>
+<div class="container" id="container1"><div class="photoDiv"><ul>
+<li><a href="2008-02-16/DSC07173.JPG"><img src="2008-02-16/mini/DSC07173.JPG" alt="" /></a></li>
+<li><a href="2008-02-16/DSC07174.JPG"><img src="2008-02-16/mini/DSC07174.JPG" alt="" /></a></li>
+</ul><span class="button prevButton" id="button1_1"></span><span class="button nextButton" id="button2_1"></span><input type="hidden" value="0" id="current_1" /></div>
+
+<div id="description_slide_1_photo_0" class="metaDiv"><div>Date : 
+2008:02:16 05:10:47
+</div><div>Dimensions : 
+2048
+ x 
+1536
+</div></div>
+<div id="description_slide_1_photo_1" class="metaDiv"><div>Date : 
+2008:02:16 05:20:39
+</div><div>Dimensions : 
+2048
+ x 
+1536
+</div></div>
+</div></article>
+<article><h2>2014-06-28</h2>
+<div class="container" id="container2"><div class="photoDiv"><ul>
+<li><a href="2014-06-28/DSC04143.JPG"><img src="2014-06-28/mini/DSC04143.JPG" alt="" /></a></li>
+<li><a href="2014-06-28/DSC04144.JPG"><img src="2014-06-28/mini/DSC04144.JPG" alt="" /></a></li>
+<li><a href="2014-06-28/DSC04145.JPG"><img src="2014-06-28/mini/DSC04145.JPG" alt="" /></a></li>
+</ul><span class="button prevButton" id="button1_2"></span><span class="button nextButton" id="button2_2"></span><input type="hidden" value="0" id="current_2" /></div>
+
+<div id="description_slide_2_photo_0" class="metaDiv"><div>Date : 
+2014:06:28 08:12:49
+</div><div>Dimensions : 
+2592
+ x 
+1944
+</div></div>
+<div id="description_slide_2_photo_1" class="metaDiv"><div>Date : 
+2014:06:28 08:13:18
+</div><div>Dimensions : 
+2592
+ x 
+1944
+</div></div>
+<div id="description_slide_2_photo_2" class="metaDiv"><div>Date : 
+2014:06:28 08:13:26
+</div><div>Dimensions : 
+2592
+ x 
+1944
+</div></div>
+</div></article>
+<article><h2>2015-01-18</h2>
+<div class="container" id="container3"><div class="photoDiv"><ul>
+<li><a href="2015-01-18/IMG_20150118_091833.jpg"><img src="2015-01-18/mini/IMG_20150118_091833.jpg" alt="" /></a></li>
+<li><a href="2015-01-18/IMG_20150118_091837.jpg"><img src="2015-01-18/mini/IMG_20150118_091837.jpg" alt="" /></a></li>
+<li><a href="2015-01-18/IMG_20150118_091851.jpg"><img src="2015-01-18/mini/IMG_20150118_091851.jpg" alt="" /></a></li>
+<li><a href="2015-01-18/IMG_20150118_091856.jpg"><img src="2015-01-18/mini/IMG_20150118_091856.jpg" alt="" /></a></li>
+</ul><span class="button prevButton" id="button1_3"></span><span class="button nextButton" id="button2_3"></span><input type="hidden" value="0" id="current_3" /></div>
+
+<div id="description_slide_3_photo_0" class="metaDiv"><div>Date : 
+2015:01:18 09:18:34
+</div><div>Dimensions : 
+3264
+ x 
+2448
+</div></div>
+<div id="description_slide_3_photo_1" class="metaDiv"><div>Date : 
+2015:01:18 09:18:38
+</div><div>Dimensions : 
+3264
+ x 
+2448
+</div></div>
+<div id="description_slide_3_photo_2" class="metaDiv"><div>Date : 
+2015:01:18 09:18:51
+</div><div>Dimensions : 
+3264
+ x 
+2448
+</div></div>
+<div id="description_slide_3_photo_3" class="metaDiv"><div>Date : 
+2015:01:18 09:18:57
+</div><div>Dimensions : 
+3264
+ x 
+2448
+</div></div>
+</div></article>
+<footer>Galerie mis à jour le 
+mardi 17 février 2015, 19:38:27 (UTC+0100)
+</footer>
+		</div>
+	</body>
+	<script>
+			$(window).load(function(){
+					
+					// Click sur un bouton
+					$('.container .button').click(function(){
+						// On récupère l'id du slide
+						tabSplit= $(this).attr("id").split("_");
+						id 		= tabSplit[1];
+						// valeur courante de l'img
+						current = parseInt($("#current_"+id).attr("value"));
+						
+						// On cache la description de la photo courante
+						$("#description_slide_"+id+"_photo_"+current).addClass("pasVisible");
+						
+						var pages = $('#container'+id+' li');
+						var currentPage,nextPage;
+						
+						currentPage = pages.eq(current);
+						
+						
+						if($(this).hasClass('prevButton'))// bouton précédent
+						{
+
+							if (current <= 0)
+								current=pages.length-1;
+							else
+								current=current-1;
+						}
+						else // bouton suivant
+						{
+							if (current >= pages.length-1)
+								current=0;
+							else
+								current=current+1;
+						}
+						nextPage = pages.eq(current);	
+						
+						// Changement de photo
+						currentPage.hide();	
+						nextPage.show();		
+						
+						// On montre la description de la nouvelle photo courante
+						$("#description_slide_"+id+"_photo_"+current).removeClass("pasVisible");
+						// On met à jour le compteur de photo
+						$("#current_"+id).attr("value",current);
+					});
+			});
+	</script>
+</html>
