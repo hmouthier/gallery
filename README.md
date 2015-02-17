@@ -1,4 +1,5 @@
-# projet deamon cron
+# Projet Démon-Cron
+
 ```
 apt-get install imagemagick
 

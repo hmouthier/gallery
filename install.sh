@@ -2,14 +2,17 @@
 
 # Installation des dépendances logiciels
 apt-get install imagemagick
-apt-get install exiftool
 apt-get install exif
 
 # déplacement du fichier de configuration dans le répértoire de l'utilisateur
+# AJOUTER POUR QUEL UTILISATEUR
 cp .gallery.ini $HOME
 
 # Création d'un répértoire pour l'application qui va tourner en démon
 mkdir /opt/gallery
+
+# Créer Le dossier pour les logs
+mkdir /var/log/gallery
 
 # Déplacement des scripts dans l'arborescence /opt/gallery
 cp src/gestionPhoto /opt/gallery
@@ -24,6 +27,10 @@ update-rc.d gestionPhoto.sh defaults
 echo AJOUT DU SERVICE .. OK
 
 # Lancer le démon
-sudo /etc/init.d/gestionPhoto.sh start
+/etc/init.d/gestionPhoto.sh start
 echo LANCEMENT DU DEMON .. OK
 
+# Ajouter le cron tab
+/etc/init.d/cron stop
+echo '*/5 *    * * *   root    /etc/init.d/gestionPhoto.sh start > /home/anonymz/Bureau/log.log' >> /etc/crontab
+/etc/init.d/cron start
