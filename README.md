@@ -1,7 +1,7 @@
 # Projet Démon-Cron
 Le but de ce projet est de créer un démon qui effectue une copie automatique de photos à partir d'un répertoire vers un autre et qui génère un site/Album photos ou l'utilisateur trouve ses images triées par date.
 
-Si le démon rencontre un problème d
+Si le démon rencontre un problème et s'arrête un cron qui est lancé chaque 5min le réveil.
 
 ## Installation du démon-cron
 
