@@ -4,17 +4,70 @@
 apt-get install imagemagick
 apt-get install exif
 
-# déplacement du fichier de configuration dans le répértoire de l'utilisateur
-###############################
-# GROPPO AJOUTE TON SCRIPT ICI#
-###############################
-cp .gallery.ini $HOME/$user
-
 # Création d'un répértoire pour l'application qui va tourner en démon
 mkdir /opt/gallery
 
 # Créer Le dossier pour les logs
 mkdir /var/log/gallery
+
+# déplacement du fichier de configuration dans le répértoire de l'utilisateur
+###############################
+echo "Pour quel utilisateur voulez vous installer ce programme ?"
+read user
+rm /opt/gallery/.gallery.ini
+echo "utilisateur "$user >> /opt/gallery/.gallery.ini
+
+test=true
+while [ $test == true ]; do
+	echo "Dans quel dossier voulez vous importer vos photos ?(chemin depuis le répertoire /home/"$user" vers le dossier)"
+	read n
+	if [ -d /home/$user/$n ];
+		then
+			echo "Le dossier existe !"
+			test=false
+		else
+			echo "Le dossier n'existe pas !"
+			echo "Voulez vous créer le dossier /home/$user/"$n" ?(O/N)"
+			read m
+			if [ "$m" == "o" ] || [ "$m" == "O" ];
+				then
+					mkdir /home/$user/$n
+					chmod 777 /home/$user/$n
+					test=false
+			fi
+	fi
+done
+
+echo "dossier_entree /home/"$user"/"$n >> /opt/gallery/.gallery.ini
+
+
+test=true
+while [ $test == true ]; do
+	echo "Dans quel dossier voulez vous trier vos photos ?(chemin depuis le répertoire /home/"$user" vers le dossier)"
+	read k
+	if [ -d /home/$user/$k ];
+		then
+			echo "Le dossier existe !"
+			test=false
+		else
+			echo "Le dossier n'existe pas !"
+			echo "Voulez vous créer le dossier /home/$user/"$k" ?(O/N)"
+			read m
+			if [ "$m" == "o" ] || [ "$m" == "O" ];
+				then
+					mkdir /home/$user/$k
+					chmod 777 /home/$user/$k
+					test=false
+			fi
+	fi
+done
+
+echo "dossier_sortie /home/"$user"/"$k >> /opt/gallery/.gallery.ini
+
+
+###############################
+
+
 
 # Déplacement des scripts dans l'arborescence /opt/gallery
 cp src/gestionPhoto /opt/gallery

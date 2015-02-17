@@ -1,7 +1,7 @@
 #!/bin/bash
 i=1
-dossier_entree=$(cat $HOME/.gallery.ini | grep dossier_entree | awk -F ' ' '{ print $2}')
-dossier_sortie=$(cat $HOME/.gallery.ini | grep dossier_sortie | awk -F ' ' '{ print $2}')
+dossier_entree=$(cat /opt/gallery/.gallery.ini | grep dossier_entree | awk -F ' ' '{ print $2}')
+dossier_sortie=$(cat /opt/gallery/.gallery.ini | grep dossier_sortie | awk -F ' ' '{ print $2}')
 
 new_photo=false
 
