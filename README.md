@@ -1,7 +1,8 @@
 # Projet Démon-Cron
 
-```
-apt-get install imagemagick
+## Installation du démon-cron
+pour installer le démon-cron pour un utlisateur lancer en `sudo` le script `install.sh` :
 
-apt-get install exiftool
+```
+sudo ./install.sh
 ```
