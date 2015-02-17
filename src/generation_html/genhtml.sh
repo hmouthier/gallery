@@ -83,7 +83,7 @@ done
 cd $repDepart
 
 # pied de page
-echo "<footer>Galerie mis à jour le " >> $fichierSortie
+echo "<footer>Galerie mis à jour le " >> $fichierSortieTmp
 date >> $fichierSortieTmp
 echo "</footer>" >> $fichierSortieTmp
 cat "$pathScript$pied" >> $fichierSortieTmp
