@@ -1,63 +1,79 @@
 #!/bin/bash
 i=1
+# Lecture des repertoires entree et sortie dans le fichier de configuration
 dossier_entree=$(cat $HOME/.gallery.ini | grep dossier_entree | awk -F ' ' '{ print $2}')
 dossier_sortie=$(cat $HOME/.gallery.ini | grep dossier_sortie | awk -F ' ' '{ print $2}')
 
 new_photo=false
 
 while [[ i>0 ]]; do
-	#statements
-
-#echo Mes images
-liste_fichiers=$(ls $dossier_entree)
-
-for fichier in $liste_fichiers
-do
 
 
-	var1=$(exif $dossier_entree/$fichier | grep -m 1 "Date et" | awk -F '|' '{ print $2}')
-
-	# pas  dexif sur la photo
-	if [[ $var1 == "" ]];
+	# liste les fichiers du repertoire d entree
+	liste_fichiers=$(ls $dossier_entree)
+	
+	# generation du verrou avec le pid du daemon
+	echo $$ > $dossier_entree"/.lock"
+	
+	# pour chaque fichier du repertoire d entree
+	for fichier in $liste_fichiers
+	do
+		# on ne s occupe pas du fichier lock
+		if [[ $fichier != ".lock" ]]
 		then
-			repAlbum="nondate"
-		else
-			annee=$(echo $var1 | cut -c1-4)
-			mois=$(echo $var1 | cut -c6-7)
-			jour=$(echo $var1 | cut -c9-10)
-			repAlbum=$annee"-"$mois"-"$jour
-	fi
+			# recuperation de la date dans les metadonnees exif des photos
+			var1=$(exif $dossier_entree/$fichier | grep -m 1 "Date et" | awk -F '|' '{ print $2}')
 
+			# pas  dexif sur la photo
+			if [[ $var1 == "" ]];
+				then
+					repAlbum="nondate"
+				else
+					annee=$(echo $var1 | cut -c1-4)
+					mois=$(echo $var1 | cut -c6-7)
+					jour=$(echo $var1 | cut -c9-10)
+					repAlbum=$annee"-"$mois"-"$jour
+			fi
 
+			# on recupere le md5 du fichier d entree
+			md5image=$(md5sum $dossier_entree/$fichier | awk '{print $1}')
+			# cree le repertoire si il n existe pas deja
+			mkdir -p $dossier_sortie"/"$repAlbum"/mini"
+			# copie de la photo dans le repertoire d arrivee
+			cp $dossier_entree"/"$fichier $dossier_sortie"/"$repAlbum
+			# verif md5 fichier sortie
+			md5imagesorti=$(md5sum $dossier_sortie"/"$repAlbum"/"$fichier | awk '{print $1}')
+			#  creation de l image miniature
+			convert $dossier_sortie"/"$repAlbum"/"$fichier -resize "300x" $dossier_sortie"/"$repAlbum"/mini/"$fichier
 
-
-	md5image=$(md5sum $dossier_entree/$fichier | awk '{print $1}')
-	mkdir -p $dossier_sortie"/"$repAlbum"/mini"
-	cp $dossier_entree"/"$fichier $dossier_sortie"/"$repAlbum
-	md5imagesorti=$(md5sum $dossier_sortie"/"$repAlbum"/"$fichier | awk '{print $1}')
-	convert $dossier_sortie"/"$repAlbum"/"$fichier -resize "300x" $dossier_sortie"/"$repAlbum"/mini/"$fichier
-
-
-	if [ $md5image = $md5imagesorti ]
-	then
-			new_photo=true
-			echo Import réussi : $fichier
-			rm $dossier_entree"/"$fichier
-			
-	else
-			echo "Import échoué : $fichier"
-			rm "$dossier_sortie/$repAlbum/$fichier"
-	fi
-
-
+			# verification que la copie s est bien passee
+			if [ $md5image = $md5imagesorti ]
+			then
+					new_photo=true
+					echo Import réussi : $fichier
+					# suppression ancien fichier
+					rm $dossier_entree"/"$fichier
+					
+			else
+					echo "Import échoué : $fichier"
+					# suppression debut de fichier copie
+					rm "$dossier_sortie/$repAlbum/$fichier"
+			fi
+		fi
+	# for
 	done
 
+	# si il y au moins une nouvelle photo on regenere la page html
 	if [ $new_photo == true ]
 	then	
 		echo mise à jour html
 		./generation_html/genhtml.sh $dossier_sortie 
 	fi
 	  new_photo=false
+	  
+	# suppression du verrou
+	echo $$ > $dossier_entree"/.lock"
+	
 	sleep 20
 # while
 done
