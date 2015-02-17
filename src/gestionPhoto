@@ -72,7 +72,7 @@ while [[ i>0 ]]; do
 	if [ $new_photo == true ]
 	then	
 		echo mise à jour html
-		./generation_html/genhtml.sh $dossier_sortie 
+		/opt/gallery/generation_html/genhtml.sh $dossier_sortie 
 	fi
 	  new_photo=false
 	  

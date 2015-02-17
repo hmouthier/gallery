@@ -1,7 +1,6 @@
 #!/bin/bash
-echo IL FAUDRA QUE LE SCRIPT D INSTALLATION INSTALLE EXIF
-echo param 1 = chemin absolu du repertoire contenant les albums!!
-# ex : 15/02 ../scripts/genhtml.sh /home/cwamgis/Bureau/exif/html/photos/
+
+# generation du fichier html : $1 = repertoire de sortie
 
 #recuperation du repertoire de depart
 repDepart=$(pwd)
@@ -21,6 +20,8 @@ fichierSortie=$1"/"$suffixeFichierRes
 suffixeFichierTmp="tmpExif.html"
 fichierExif=$1"/"$suffixeFichierTmp
 
+# recuperation du user
+user=$(cat /opt/gallery/.gallery.ini | grep utilisateur | awk -F ' ' '{ print $2}')
 
 #entete
 entete="entete.html"
@@ -88,9 +89,15 @@ echo "</footer>" >> $fichierSortieTmp
 cat "$pathScript$pied" >> $fichierSortieTmp
 # suppression fichier temporaire
 rm $fichierExif
-# copie fichiers assets
-cp -Rvf $pathScript"jscssimg" $1
 
+# copie fichiers assets si il n existe pas
+test -d $1"/jscssimg"
+if [ $? == 1 ]
+then
+	cp -Rvf $pathScript"jscssimg" $1
+	chown -R $user $1"/jscssimg"
+	chgrp -R $user $1"/jscssimg"
+fi
 # on remplace le fichier html
 cp -f $fichierSortieTmp $fichierSortie
 rm -f $fichierSortieTmp
