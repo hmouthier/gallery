@@ -35,7 +35,8 @@ while [ $test == true ]; do
 			if [ "$m" == "o" ] || [ "$m" == "O" ];
 				then
 					mkdir /home/$user/$n
-					chmod 777 /home/$user/$n
+					chmgrb $user /home/$user/$n
+					chown $user /home/$user/$n
 					test=false
 			fi
 	fi
@@ -59,7 +60,8 @@ while [ $test == true ]; do
 			if [ "$m" == "o" ] || [ "$m" == "O" ];
 				then
 					mkdir /home/$user/$k
-					chmod 777 /home/$user/$k
+					chgrp $user /home/$user/$k
+					chown $user /home/$user/$k
 					test=false
 			fi
 	fi
