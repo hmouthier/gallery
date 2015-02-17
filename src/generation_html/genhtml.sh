@@ -10,7 +10,10 @@ repDepart=$(pwd)
 pathScript=`echo "$0" | sed -e "s/[^\/]*$//"`
 echo $pathScript
 
-#fichier de sortie html
+#fichiers de sortie html
+suffixeFichierResTmp="visuAlbumsTmp.html"
+fichierSortieTmp=$1"/"$suffixeFichierResTmp
+
 suffixeFichierRes="visuAlbums.html"
 fichierSortie=$1"/"$suffixeFichierRes
 
@@ -21,7 +24,7 @@ fichierExif=$1"/"$suffixeFichierTmp
 
 #entete
 entete="entete.html"
-cat "$pathScript$entete" > $fichierSortie
+cat "$pathScript$entete" > $fichierSortieTmp
 
 #pied
 pied="footer.html"
@@ -30,18 +33,18 @@ cmpAlbums=1
 cd $1
 
 # on efface le rep js css
-rm -R jscssimg
+#rm -R jscssimg
 
 # Parcours de chaque repertoire chantier
 for album in *
 	do
 		# test repertoire
-		if [ -d $album ]
+		if [ -d $album ] && [ $album != "jscssimg" ]
 			then
 				
 				cd $album
-				echo "<article><h2>"$album"</h2>"  >> $fichierSortie
-				echo "<div class=\"container\" id=\"container"$cmpAlbums"\"><div class=\"photoDiv\"><ul>"  >> $fichierSortie
+				echo "<article><h2>"$album"</h2>"  >> $fichierSortieTmp
+				echo "<div class=\"container\" id=\"container"$cmpAlbums"\"><div class=\"photoDiv\"><ul>"  >> $fichierSortieTmp
 				cmpPhoto=0
 				echo "" > $fichierExif
 				for photo in *
@@ -49,7 +52,7 @@ for album in *
 					if [ $photo != "mini" ]
 						then
 							# image
-							echo "<li><a href=\"$album/$photo\"><img src=\""$album"/mini/"$photo"\" alt=\"\" /></a></li>"  >> $fichierSortie
+							echo "<li><a href=\"$album/$photo\"><img src=\""$album"/mini/"$photo"\" alt=\"\" /></a></li>"  >> $fichierSortieTmp
 							# metadonnees exif
 							echo "<div id=\"description_slide_"$cmpAlbums"_photo_"$cmpPhoto"\" class=\"metaDiv\"><div>Date : " >> $fichierExif
 							exif $photo | grep -m 1 "Date et" | awk -F '|' '{ print $2}' >> $fichierExif
@@ -63,12 +66,12 @@ for album in *
 					fi
 				done
 				# bouton de parcours des photos
-				echo "</ul><span class=\"button prevButton\" id=\"button1_"$cmpAlbums"\"></span><span class=\"button nextButton\" id=\"button2_"$cmpAlbums"\"></span><input type=\"hidden\" value=\"0\" id=\"current_"$cmpAlbums"\" /></div>"   >> $fichierSortie
+				echo "</ul><span class=\"button prevButton\" id=\"button1_"$cmpAlbums"\"></span><span class=\"button nextButton\" id=\"button2_"$cmpAlbums"\"></span><input type=\"hidden\" value=\"0\" id=\"current_"$cmpAlbums"\" /></div>"   >> $fichierSortieTmp
 				
 				# recopie des metadonnees sauvegardees
-				cat $fichierExif >> $fichierSortie
+				cat $fichierExif >> $fichierSortieTmp
 				
-				echo "</div></article>" >> $fichierSortie
+				echo "</div></article>" >> $fichierSortieTmp
 				
 				((cmpAlbums=$cmpAlbums+1))
 				cd ..
@@ -80,12 +83,14 @@ cd $repDepart
 
 # pied de page
 echo "<footer>Galerie mis à jour le " >> $fichierSortie
-date >> $fichierSortie
-echo "</footer>" >> $fichierSortie
-cat "$pathScript$pied" >> $fichierSortie
+date >> $fichierSortieTmp
+echo "</footer>" >> $fichierSortieTmp
+cat "$pathScript$pied" >> $fichierSortieTmp
 # suppression fichier temporaire
 rm $fichierExif
 # copie fichiers assets
-cp -Rv $pathScript"jscssimg" $1
+cp -Rvf $pathScript"jscssimg" $1
 
-
+# on remplace le fichier html
+cp -f $fichierSortieTmp $fichierSortie
+rm -f $fichierSortieTmp
