@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # Arrêter le cron
-sed '//d' /etc/crontab
+sed '/GestionPhoto/d' /etc/crontab
 
 # Arrêter le démon
 /etc/init.gestionPhoto.sh stop
